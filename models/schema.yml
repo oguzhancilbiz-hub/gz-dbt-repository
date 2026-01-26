@@ -6,9 +6,60 @@ sources:
     tables:
       - name: sales
         identifier: raw_gz_sales
+        description: "Greenweez satış verileri"
+        #Freshness Testing
+        loaded_at_field: "CAST(date_date AS TIMESTAMP)"
+        freshness: 
+          warn_after:
+            count: 90
+            period: day
+        columns:
+          - name: date_date
+          - description: "Date of purchase"
+
+        columns:
+          - name: date_date
+            description: "Date of purchase"
+          - name: orders_id
+            description: "Foreign key to ship"
+          - name: pdt_id
+            description: "Foreign key to product"
+          - name: revenue
+            description: "Revenue = quantity * selling_price"
+          - name: quantity
+            description: "Quantity purchased for the order"
+        tests:
+            - unique:
+                column_name: "(orders_id ||'-'|| pdt_id)"
+            - dbt_utils.unique_combination_of_columns:
+                combination_of_columns:
+                    - orders_id
+                    - pdt_id
 
       - name: product
         identifier: raw_gz_product
+        description: "Products of Greenweez"
+        columns:
+          - name: products_id
+            description: "Primary key"
+            tests:
+              - unique
+              - not_null
+          - name: purchase_price
+            description: "Purchase price of the product"
 
       - name: ship
         identifier: raw_gz_ship
+        description: "Shipping data for Greenweez orders"
+        columns:
+          - name: orders_id
+            description: "Primary key"
+            tests:
+              - unique
+              - not_null
+          - name: shipping_fee
+            description: "Shipping fee paid by customer"
+          - name: log_cost
+            description: "Logistics cost"
+          - name: ship_cost
+            description: "Shipping cost paid to carrier"
