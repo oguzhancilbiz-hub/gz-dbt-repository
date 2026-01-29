@@ -1,5 +1,3 @@
-
--- finance_days.sql
 WITH ORDERS_PER_DAY AS (select date_date,
 count(DISTINCT orders_id) AS nb_transactions,
 ROUND(sum(revenue),0) as revenue,

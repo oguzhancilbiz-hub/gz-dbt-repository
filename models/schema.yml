@@ -13,9 +13,6 @@ sources:
           warn_after:
             count: 90
             period: day
-        columns:
-          - name: date_date
-          - description: "Date of purchase"
 
         columns:
           - name: date_date
