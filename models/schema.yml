@@ -6,25 +6,25 @@ sources:
     tables:
       - name: sales
         identifier: raw_gz_sales
-        description: "Greenweez satış verileri"
-        #Freshness Testing
-        loaded_at_field: "CAST(date_date AS TIMESTAMP)"
-        freshness: 
-          warn_after:
-            count: 90
-            period: day
-
+        description: Greenweez satış verileri
+        # Freshness uyarısını gidermek için config altına alındı
+        config:
+          freshness:
+            warn_after:
+              count: 90
+              period: day
+          loaded_at_field: CAST(date_date AS TIMESTAMP)
         columns:
           - name: date_date
-            description: "Date of purchase"
+            description: Date of purchase
           - name: orders_id
-            description: "Foreign key to ship"
+            description: Foreign key to ship
           - name: pdt_id
-            description: "Foreign key to product"
+            description: Foreign key to product
           - name: revenue
-            description: "Revenue = quantity * selling_price"
+            description: Revenue = quantity * selling_price
           - name: quantity
-            description: "Quantity purchased for the order"
+            description: Quantity purchased for the order
         tests:
             - unique:
                 column_name: "(orders_id ||'-'|| pdt_id)"
@@ -35,28 +35,38 @@ sources:
 
       - name: product
         identifier: raw_gz_product
-        description: "Products of Greenweez"
+        description: Products of Greenweez
         columns:
           - name: products_id
-            description: "Primary key"
+            description: Primary key
             tests:
               - unique
               - not_null
           - name: purchase_price
-            description: "Purchase price of the product"
+            description: Purchase price of the product
 
       - name: ship
         identifier: raw_gz_ship
-        description: "Shipping data for Greenweez orders"
+        description: Shipping data for Greenweez orders
         columns:
           - name: orders_id
-            description: "Primary key"
+            description: Primary key
             tests:
               - unique
               - not_null
           - name: shipping_fee
-            description: "Shipping fee paid by customer"
+            description: Shipping fee paid by customer
           - name: log_cost
-            description: "Logistics cost"
+            description: Logistics cost
           - name: ship_cost
-            description: "Shipping cost paid to carrier"
+            description: Shipping cost paid to carrier
+
+      # Yeni eklediğim reklam kaynakları
+      - name: adwords
+        identifier: raw_gz_adwords
+      - name: bing
+        identifier: raw_gz_bing
+      - name: criteo
+        identifier: raw_gz_criteo
+      - name: facebook
+        identifier: raw_gz_facebook
