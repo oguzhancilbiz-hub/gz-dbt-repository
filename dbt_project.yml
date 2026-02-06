@@ -41,6 +41,12 @@ models:
      mart:
       +materialized: table
       finance:
-       +schema: finance
+        +schema: finance
+     Circle_parcel:
+       +schema: parcel_dbt_dev
+       +materialized: view
+       staging:
+        +schema: parcel_dbt_dev_staging
+        +materialized: view
 
 

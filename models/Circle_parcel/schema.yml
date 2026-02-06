@@ -1,0 +1,29 @@
+version: 2
+
+models:
+  - name: cc_parcel
+    description: "Koli ve ürün bilgilerinin birleştirildiği, kargo sürelerinin hesaplandığı ana tablo."
+    columns:
+      - name: parcel_id
+        tests:
+          - unique
+          - not_null
+      - name: status
+        description: "Kargonun güncel durumu (teslim edildi, yolda vb.)"
+      - name: expedition_time
+        description: "Siparişten kargoya verilene kadar geçen gün sayısı."
+
+  - name: cc_parcel_product
+    description: "Her bir paket (parcel_id) bazında, paketteki toplam ürün sayısını ve model çeşitliliğini içeren özet tablodur."
+    columns:
+      - name: parcel_id
+        description: "Paketin benzersiz numarası."
+        tests:
+          - unique
+          - not_null
+      - name: model_name
+        description: "Paket içindeki tüm modellerin virgülle ayrılmış listesi."
+      - name: quantity
+        description: "Paketteki toplam ürün miktarı."
+        tests:
+          - not_null

@@ -1,0 +1,28 @@
+version: 2
+
+sources:
+  - name: raw_circle
+    schema: raw_data_circle
+    tables:
+      - name: parcel
+        identifier: raw_cc_parcel
+        description: parcel satın alma verileri
+      - name: parcel_product
+        identifier: raw_cc_parcel_product
+        description: parcel ürün verileri
+    
+models:
+  - name: stg_cc_parcel
+    description: "Koli verilerinin temizlenmiş staging modeli"
+    columns:
+      - name: parcel_id
+        tests:
+          - unique
+          - not_null
+
+  - name: stg_cc_parcel_product
+    description: "Koli içindeki ürünlerin staging modeli (Ham haliyle çoklu satır içerir)"
+    columns:
+      - name: parcel_id
+        tests:
+          - not_null # Burada unique testini sildik, çünkü bir koli birden fazla ürün içerebilir.
